@@ -28,6 +28,7 @@ public class Main {
 		for(Tabuleiro melhorMovimento : InteligenciaArtificial.getMelhoresMovimentos(tab)) {
 			System.out.println("qtd de subsequentes do movimento numero "+i+": "+ melhorMovimento.getQtdMovimentosValidos());
 			System.out.println(melhorMovimento.toString());
+			i++;
 		}
 		
 		/*ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela();
