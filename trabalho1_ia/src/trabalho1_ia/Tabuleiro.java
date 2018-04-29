@@ -129,16 +129,18 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	}
 	
 	public Tabuleiro Cria (Tabuleiro T, int Linha , int Coluna) {
+		Tabuleiro tabuleiro = new Tabuleiro();
 		try{
-			Tabuleiro tabuleiro = (Tabuleiro) this.clone();
+			tabuleiro = (Tabuleiro) this.clone();
 			//falta colocar o valor na celula [linha][coluna]
 			tabuleiro.linhaCavalo = Linha;
 			tabuleiro.colunaCavalo = Coluna;
 			Last = new int [linhaCavalo][colunaCavalo]; 
-			return tabuleiro;
 		}catch(Exception e){
 			System.err.println("CloneNotSupportedException:" + e.getMessage());
 		}
+		
+		return tabuleiro;
 	}
 
 	//Compara dois tabuleiros pelo numero de movimentos sucessores
