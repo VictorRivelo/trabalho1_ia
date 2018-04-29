@@ -23,6 +23,12 @@ public class Main {
 			i++;
 		}		
 
+		System.out.println("Checando ordenacao da lista de melhores movimentos");
+		i = 0;
+		for(Tabuleiro melhorMovimento : InteligenciaArtificial.getMelhoresMovimentos(tab)) {
+			System.out.println("qtd de subsequentes do movimento numero "+i+": "+ melhorMovimento.getQtdMovimentosValidos());
+			System.out.println(melhorMovimento.toString());
+		}
 		
 		/*ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela();
 		System.out.println(resultadosSmaEstrela.toString());*/
