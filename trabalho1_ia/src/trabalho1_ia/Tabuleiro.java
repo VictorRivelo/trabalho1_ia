@@ -29,7 +29,7 @@ public class Tabuleiro {
 		return outputString.toString();
 	}
 	
-	public ArrayList<Tabuleiro> getMovimentosValidos(int linha, int coluna){
+	public ArrayList<Tabuleiro> getMovimentosValidos(){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro T = this, tabuleiro;
@@ -37,24 +37,24 @@ public class Tabuleiro {
 		
 		//movimentos para cima
 		//anda pra cima - direita
-		projetoMovimentoLinha = linha+2;
-		projetoMovimentoColuna = coluna+1;
+		projetoMovimentoLinha = Last.length+2;
+		projetoMovimentoColuna = Last[0].length+1;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
 		}
 		
 		//anda pra cima - esquerda
-		projetoMovimentoLinha = linha+2;
-		projetoMovimentoColuna = coluna-1;
+		projetoMovimentoLinha = Last.length+2;
+		projetoMovimentoColuna = Last[0].length-1;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
 		}
 		
 		//anda pra cima - direita
-		projetoMovimentoLinha = linha+2;
-		projetoMovimentoColuna = coluna+1;
+		projetoMovimentoLinha = Last.length+2;
+		projetoMovimentoColuna = Last[0].length+1;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
@@ -62,16 +62,16 @@ public class Tabuleiro {
 		
 		//movimentos para direita	
 		//anda pra diretia - cima 
-		projetoMovimentoLinha = linha+1;
-		projetoMovimentoColuna = coluna+2;
+		projetoMovimentoLinha = Last.length;
+		projetoMovimentoColuna = Last[0].length+2;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
 		}
 		
 		//anda pra diretia - baixo
-		projetoMovimentoLinha = linha-1;
-		projetoMovimentoColuna = coluna+2;
+		projetoMovimentoLinha = Last.length-1;
+		projetoMovimentoColuna = Last[0].length+2;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
@@ -79,16 +79,16 @@ public class Tabuleiro {
 		
 		//movimentos para esquerda
 		//anda pra esquerda - cima 
-		projetoMovimentoLinha = linha+1;
-		projetoMovimentoColuna = coluna-2;
+		projetoMovimentoLinha = Last.length+1;
+		projetoMovimentoColuna = Last[0].length-2;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
 		}	
 		
 		//anda pra esquerda - baixo
-		projetoMovimentoLinha = linha-1;
-		projetoMovimentoColuna = coluna-2;
+		projetoMovimentoLinha = Last.length-1;
+		projetoMovimentoColuna = Last[0].length-2;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
@@ -96,16 +96,16 @@ public class Tabuleiro {
 		
 		//movimentos para baixo
 		//anda pra baixo - esquerda
-		projetoMovimentoLinha = linha-2;
-		projetoMovimentoColuna = coluna-1;
+		projetoMovimentoLinha = Last.length-2;
+		projetoMovimentoColuna = Last[0].length-1;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
 		}
 		
 		//anda pra baixo - direita
-		projetoMovimentoLinha = linha-2;
-		projetoMovimentoColuna = coluna+1;
+		projetoMovimentoLinha = Last.length-2;
+		projetoMovimentoColuna = Last[0].length+1;
 		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
 			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
 			movimentosValidos.add(tabuleiro);	
@@ -133,6 +133,5 @@ public class Tabuleiro {
 		}catch(Exception e){
 			System.err.println("CloneNotSupportedException:" + e.getMessage());
 		}
-	} 
-	
+	} 	
 }
