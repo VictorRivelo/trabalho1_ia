@@ -6,6 +6,7 @@ public class Tabuleiro {
 	byte[][] tabuleiro = new byte[8][8];
 	int linhaCavalo, colunaCavalo;
 	int nLinhas , nColunas;
+	int [][] Last;
 	
 	public Tabuleiro() {
 		for(int i=0; i<7; i++) {
