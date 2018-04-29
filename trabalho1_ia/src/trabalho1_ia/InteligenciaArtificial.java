@@ -34,7 +34,7 @@ public class InteligenciaArtificial {
 	}
 	
 	//aplica a heuristica pra selecionar o melhor movimento
-	private static ArrayList<Tabuleiro> getMelhorMovimento(Tabuleiro tabuleiro) {
+	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro) {
 		//Retorna todos os movimentos validos a partir da posicao atual
 		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
 		

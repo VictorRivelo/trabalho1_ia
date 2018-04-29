@@ -14,8 +14,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		nLinhas = tabuleiro.length;
 		nColunas = tabuleiro[0].length;
 
-		for(int i=0; i<7; i++) {
-			for(int j=0; j<7; j++) {
+		for(int i=0; i <= 7; i++) {
+			for(int j=0; j <= 7; j++) {
 				tabuleiro[i][j] = 0;
 			}
 		}
@@ -39,8 +39,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		nLinhas = this.tabuleiro.length;
 		nColunas = this.tabuleiro[0].length;
 		
-		for(int i=0; i < 7; i++) {
-			for(int j=0; j < 7; j++) {
+		for(int i=0; i <= 7; i++) {
+			for(int j=0; j <= 7; j++) {
 				this.tabuleiro[i][j] = tabuleiro.getTabuleiro()[i][j];
 			}
 		}		
@@ -48,6 +48,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		qtdMovimentosValidos = 0;	
 		this.tempoUltimoMovimentoCavalo = (byte)(tabuleiro.getTempoUltimoMovimentoCavalo()+1);
 		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
+		this.linhaCavalo = linhaCavalo;
+		this.colunaCavalo = colunaCavalo;
 	}
 	
 	public byte[][] getTabuleiro() {
@@ -64,8 +66,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	
 	public String toString() {
 		StringBuilder outputString = new StringBuilder();
-		for(int i=0; i<7; i++) {
-			for(int j=0; j<7; j++) {
+		for(int i=0; i <= 7; i++) {
+			for(int j=0; j <= 7; j++) {
 				outputString.append("["+tabuleiro[i][j]+"]");
 			}
 			outputString.append(System.lineSeparator());
@@ -146,17 +148,15 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		}		
 		
 		this.qtdMovimentosValidos = movimentosValidos.size();
+		System.out.println("qtd de movimentos validos calculada: " + qtdMovimentosValidos);
 		return movimentosValidos;
 	}
 	
 	private boolean movimentoEhValido (int linha, int coluna) {
-		System.out.println("Validando movimento "+linha+" "+coluna);
 		if(linha<nLinhas && coluna<nColunas && linha >=0 && coluna >=0 && tabuleiro[linha][coluna] == 0) {
 			//o movimento eh valido
-			System.out.println("eh valido");
 			return true;
 		}
-		System.out.println("nao eh valido");
 		return false;
 	}
 	
