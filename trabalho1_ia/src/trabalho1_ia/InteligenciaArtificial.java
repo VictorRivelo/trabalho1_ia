@@ -33,7 +33,8 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
-	//aplica a heuristica pra selecionar o melhor movimento
+	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,
+	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
 	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro) {
 		//Retorna todos os movimentos validos a partir da posicao atual
 		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
