@@ -3,20 +3,59 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	byte[][] tabuleiro = new byte[8][8];
-	int linhaCavalo, colunaCavalo;
-	int nLinhas , nColunas;
-	int [][] Last;
-	int qtdMovimentosValidos;
+	private byte[][] tabuleiro = new byte[8][8];
+	private int linhaCavalo, colunaCavalo;
+	private int nLinhas , nColunas;
+	private int qtdMovimentosValidos;
+	private byte tempoUltimoMovimentoCavalo = 0;
 	
+	//Cria um tabuleiro vazio sem cavalo
 	public Tabuleiro() {
+		nLinhas = tabuleiro.length;
+		nColunas = tabuleiro[0].length;
+
 		for(int i=0; i<7; i++) {
 			for(int j=0; j<7; j++) {
 				tabuleiro[i][j] = 0;
 			}
 		}
-	 nLinhas = tabuleiro.length;
-	 nColunas = tabuleiro[0].length;
+		qtdMovimentosValidos = 0;
+		tempoUltimoMovimentoCavalo = 0;
+	}
+	
+	//Cria um tabuleiro vazio e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
+	//Como o cavalo fez um movimento, incrementa tempoUltimoMovimentoCavalo
+	public Tabuleiro(int linhaCavalo, int colunaCavalo) {
+		this();
+		this.linhaCavalo = linhaCavalo;
+		this.colunaCavalo = colunaCavalo;
+		this.tempoUltimoMovimentoCavalo = (byte)(this.tempoUltimoMovimentoCavalo+1);
+		this.tabuleiro[linhaCavalo][colunaCavalo] = tempoUltimoMovimentoCavalo;
+	}
+	
+	//Copia um tabuleiro e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
+	//Como o cavalo fez um movimento, incrementa tempoUltimoMovimentoCavalo
+	public Tabuleiro(Tabuleiro tabuleiro, int linhaCavalo, int colunaCavalo) {
+		nLinhas = this.tabuleiro.length;
+		nColunas = this.tabuleiro[0].length;
+		
+		for(int i=0; i < 7; i++) {
+			for(int j=0; j < 7; j++) {
+				this.tabuleiro[i][j] = tabuleiro.getTabuleiro()[i][j];
+			}
+		}		
+		
+		qtdMovimentosValidos = 0;	
+		this.tempoUltimoMovimentoCavalo = (byte)(tabuleiro.getTempoUltimoMovimentoCavalo()+1);
+		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
+	}
+	
+	public byte[][] getTabuleiro() {
+		return tabuleiro;
+	}
+	
+	public byte getTempoUltimoMovimentoCavalo() {
+		return tempoUltimoMovimentoCavalo;
 	}
 	
 	public int getQtdMovimentosValidos() {
@@ -37,112 +76,90 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	public ArrayList<Tabuleiro> getMovimentosValidos(){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
-		Tabuleiro T = this, tabuleiro;
-		//Aqui fica o calculo de todos os movimentos válidos do cavalo
+		Tabuleiro novoTab;
+		//Aqui fica o calculo de todos os movimentos va�lidos do cavalo
 		
 		//movimentos para cima
 		//anda pra cima - direita
-		projetoMovimentoLinha = Last.length+2;
-		projetoMovimentoColuna = Last[0].length+1;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
+		projetoMovimentoLinha = linhaCavalo-2;
+		projetoMovimentoColuna = colunaCavalo+1;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
 		}
 		
 		//anda pra cima - esquerda
-		projetoMovimentoLinha = Last.length+2;
-		projetoMovimentoColuna = Last[0].length-1;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
+		projetoMovimentoLinha = linhaCavalo-2;
+		projetoMovimentoColuna = colunaCavalo-1;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
 		}
 		
-		//anda pra cima - direita
-		projetoMovimentoLinha = Last.length+2;
-		projetoMovimentoColuna = Last[0].length+1;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
+		//anda pra direita - cima
+		projetoMovimentoLinha = linhaCavalo-1;
+		projetoMovimentoColuna = colunaCavalo+2;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
 		}
 		
-		//movimentos para direita	
-		//anda pra diretia - cima 
-		projetoMovimentoLinha = Last.length;
-		projetoMovimentoColuna = Last[0].length+2;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
+		//anda pra esquerda - cima
+		projetoMovimentoLinha = linhaCavalo-1;
+		projetoMovimentoColuna = colunaCavalo-2;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
+		}		
+		
+		//Movimentos pra baixo		
+		//anda pra baixo - direita
+		projetoMovimentoLinha = linhaCavalo+2;
+		projetoMovimentoColuna = colunaCavalo+1;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
 		}
 		
-		//anda pra diretia - baixo
-		projetoMovimentoLinha = Last.length-1;
-		projetoMovimentoColuna = Last[0].length+2;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
+		//anda pra baixo - esquerda
+		projetoMovimentoLinha = linhaCavalo+2;
+		projetoMovimentoColuna = colunaCavalo-1;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
 		}
 		
-		//movimentos para esquerda
-		//anda pra esquerda - cima 
-		projetoMovimentoLinha = Last.length+1;
-		projetoMovimentoColuna = Last[0].length-2;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
-		}	
+		//anda pra direita - baixo
+		projetoMovimentoLinha = linhaCavalo+1;
+		projetoMovimentoColuna = colunaCavalo+2;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
+		}
 		
 		//anda pra esquerda - baixo
-		projetoMovimentoLinha = Last.length-1;
-		projetoMovimentoColuna = Last[0].length-2;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
-		}
-		
-		//movimentos para baixo
-		//anda pra baixo - esquerda
-		projetoMovimentoLinha = Last.length-2;
-		projetoMovimentoColuna = Last[0].length-1;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
-		}
-		
-		//anda pra baixo - direita
-		projetoMovimentoLinha = Last.length-2;
-		projetoMovimentoColuna = Last[0].length+1;
-		if (Valido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			tabuleiro = Cria (T, projetoMovimentoColuna, projetoMovimentoColuna);
-			movimentosValidos.add(tabuleiro);	
-		} 
+		projetoMovimentoLinha = linhaCavalo+1;
+		projetoMovimentoColuna = colunaCavalo-2;
+		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
+			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			movimentosValidos.add(novoTab);	
+		}		
 		
 		this.qtdMovimentosValidos = movimentosValidos.size();
 		return movimentosValidos;
 	}
 	
-	public boolean Valido (int linha, int coluna) {
-		if(linha<nLinhas && coluna<nColunas && linha>0 && coluna>0 && tabuleiro[linha][coluna] == 0) {
-		//o movimento é valido
-		return true;
+	private boolean movimentoEhValido (int linha, int coluna) {
+		System.out.println("Validando movimento "+linha+" "+coluna);
+		if(linha<nLinhas && coluna<nColunas && linha >=0 && coluna >=0 && tabuleiro[linha][coluna] == 0) {
+			//o movimento eh valido
+			System.out.println("eh valido");
+			return true;
 		}
-	return false;
+		System.out.println("nao eh valido");
+		return false;
 	}
 	
-	public Tabuleiro Cria (Tabuleiro T, int Linha , int Coluna) {
-		Tabuleiro tabuleiro = new Tabuleiro();
-		try{
-			tabuleiro = (Tabuleiro) this.clone();
-			//falta colocar o valor na celula [linha][coluna]
-			tabuleiro.linhaCavalo = Linha;
-			tabuleiro.colunaCavalo = Coluna;
-			Last = new int [linhaCavalo][colunaCavalo]; 
-		}catch(Exception e){
-			System.err.println("CloneNotSupportedException:" + e.getMessage());
-		}
-		
-		return tabuleiro;
-	}
-
 	//Compara dois tabuleiros pelo numero de movimentos sucessores
 	//Se o atual tiver mais movimentos do que o comparado, ele eh considerado maior
 	//e vem depois na ordenacao. Se tiver menos, eh considerado menor 
