@@ -29,7 +29,7 @@ public class Tabuleiro {
 		return outputString.toString();
 	}
 	
-	public ArrayList<Tabuleiro> getMovimentosValidos(int linha, int coluna) throws CloneNotSupportedException {
+	public ArrayList<Tabuleiro> getMovimentosValidos(int linha, int coluna){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro T = this, tabuleiro;
@@ -122,8 +122,13 @@ public class Tabuleiro {
 	return false;
 	}
 	
-	public Tabuleiro Cria (Tabuleiro T, int Linha , int Coluna) throws CloneNotSupportedException {
-		Tabuleiro tabuleiro = (Tabuleiro) this.clone();
+	public Tabuleiro Cria (Tabuleiro T, int Linha , int Coluna) {
+		public Tabuleiro Cria (Tabuleiro T, int Linha , int Coluna) {
+		try{
+			Tabuleiro tabuleiro = (Tabuleiro) this.clone();
+		}catch(Exception e){
+			System.err.println("CloneNotSupportedException:" + e.getMessage());
+		}
 		//falta colocar o valor na celula [linha][coluna]
 		//salvar o last, posicao do cavalo
 		tabuleiro.linhaCavalo = Linha;
