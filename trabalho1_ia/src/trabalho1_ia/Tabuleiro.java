@@ -79,7 +79,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro novoTab;
-		//Aqui fica o calculo de todos os movimentos va�lidos do cavalo
+		//Aqui fica o calculo de todos os movimentos va¡lidos do cavalo
 		
 		//movimentos para cima
 		//anda pra cima - direita
@@ -172,6 +172,21 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 			return -1;
 		}
 		return 0;
+	}
+	//caso true, backtracking testar o próximo da lista de movimentos
+	public boolean becoSemSaida() {
+		if(this.qtdMovimentosValidos == 0){
+			return true;
+		}
+		return false;
+	}
+	
+	//caso true solucao encontrada
+	public boolean Resultado () {
+		if(becoSemSaida() && this.tabuleiro[this.linhaCavalo][this.colunaCavalo] == 64){
+			return true;
+		}
+		return false;
 	}
 
 }
