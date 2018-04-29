@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tabuleiro {
 	byte[][] tabuleiro = new byte[8][8];
-	byte linhaCavalo, colunaCavalo;
+	int linhaCavalo, colunaCavalo;
 	
 	public Tabuleiro() {
 		for(int i=0; i<7; i++) {
@@ -12,6 +12,8 @@ public class Tabuleiro {
 				tabuleiro[i][j] = 0;
 			}
 		}
+	 linhaCavalo = tabuleiro.length;
+	 colunaCavalo = tabuleiro[0].length;
 	}
 	
 	public String toString() {
@@ -28,7 +30,7 @@ public class Tabuleiro {
 	public ArrayList<Tabuleiro> getMovimentosValidos(int linha, int coluna) {
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		
-		//Aqui fica o calculo de todos os movimentos v·lidos do cavalo
+		//Aqui fica o calculo de todos os movimentos v√°lidos do cavalo
 		
 		return movimentosValidos;
 	}
