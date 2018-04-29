@@ -1,5 +1,6 @@
 package trabalho1_ia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InteligenciaArtificial {
@@ -32,8 +33,16 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
-	//aplica a heurística pra selecionar o melhor movimento
-	private static Tabuleiro getMelhorMovimento(List<Tabuleiro> movimentosValidos) {
-		return movimentosValidos.get(0);
+	//aplica a heuristica pra selecionar o melhor movimento
+	private static ArrayList<Tabuleiro> getMelhorMovimento(List<Tabuleiro> movimentosValidos, int linha, int coluna) {
+		ArrayList<Tabuleiro> melhoresMovimentos = new ArrayList<Tabuleiro>();
+		melhoresMovimentos.add(movimentosValidos.get(0));
+		int melhorQtdDeMovimentosFuturos = 0;
+		
+		
+		for(Tabuleiro movimentoValido : movimentosValidos) {
+			
+		}
+		return melhoresMovimentos;
 	}
 }

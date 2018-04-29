@@ -2,11 +2,12 @@ package trabalho1_ia;
 
 import java.util.ArrayList;
 
-public class Tabuleiro {
+public class Tabuleiro implements Comparable<Tabuleiro> {
 	byte[][] tabuleiro = new byte[8][8];
 	int linhaCavalo, colunaCavalo;
 	int nLinhas , nColunas;
 	int [][] Last;
+	int qtdMovimentosValidos;
 	
 	public Tabuleiro() {
 		for(int i=0; i<7; i++) {
@@ -16,6 +17,10 @@ public class Tabuleiro {
 		}
 	 nLinhas = tabuleiro.length;
 	 nColunas = tabuleiro[0].length;
+	}
+	
+	public int getQtdMovimentosValidos() {
+		return qtdMovimentosValidos;
 	}
 	
 	public String toString() {
@@ -133,5 +138,16 @@ public class Tabuleiro {
 		}catch(Exception e){
 			System.err.println("CloneNotSupportedException:" + e.getMessage());
 		}
-	} 	
+	}
+
+	@Override
+	public int compareTo(Tabuleiro t2) {
+		if(this.qtdMovimentosValidos > t2.qtdMovimentosValidos) {
+			return 1;
+		} else if(this.qtdMovimentosValidos < t2.qtdMovimentosValidos) {
+			return -1;
+		}
+		return 0;
+	}
+
 }
