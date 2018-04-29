@@ -116,6 +116,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 			movimentosValidos.add(tabuleiro);	
 		} 
 		
+		this.qtdMovimentosValidos = movimentosValidos.size();
 		return movimentosValidos;
 	}
 	
@@ -140,6 +141,10 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		}
 	}
 
+	//Compara dois tabuleiros pelo numero de movimentos sucessores
+	//Se o atual tiver mais movimentos do que o comparado, ele eh considerado maior
+	//e vem depois na ordenacao. Se tiver menos, eh considerado menor 
+	//e vem antes na ordenacao.
 	@Override
 	public int compareTo(Tabuleiro t2) {
 		if(this.qtdMovimentosValidos > t2.qtdMovimentosValidos) {

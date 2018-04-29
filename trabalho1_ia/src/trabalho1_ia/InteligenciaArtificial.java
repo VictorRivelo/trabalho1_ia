@@ -1,6 +1,7 @@
 package trabalho1_ia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class InteligenciaArtificial {
@@ -34,15 +35,21 @@ public class InteligenciaArtificial {
 	}
 	
 	//aplica a heuristica pra selecionar o melhor movimento
-	private static ArrayList<Tabuleiro> getMelhorMovimento(List<Tabuleiro> movimentosValidos, int linha, int coluna) {
-		ArrayList<Tabuleiro> melhoresMovimentos = new ArrayList<Tabuleiro>();
-		melhoresMovimentos.add(movimentosValidos.get(0));
-		int melhorQtdDeMovimentosFuturos = 0;
+	private static ArrayList<Tabuleiro> getMelhorMovimento(Tabuleiro tabuleiro) {
+		//Retorna todos os movimentos validos a partir da posicao atual
+		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
 		
+		//Itera sobre os movimentos validos, calculando o número de
+		//movimentos sucessores de cada um
+		for(Tabuleiro tab : melhoresMovimentos) {
+			tab.getMovimentosValidos();
+		}		
 		
-		for(Tabuleiro movimentoValido : movimentosValidos) {
-			
-		}
+		//Ordena a lista de movimentos validos. Para isso eh usado o criterio do compareTo
+		//que coloca primeiro aqueles que tem menor quantidade de movimentos sucessores
+		//conforme determinado pela heuristica de Warnsdorff
+		Collections.sort(melhoresMovimentos);
+		
 		return melhoresMovimentos;
 	}
 }
