@@ -183,7 +183,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	
 	//caso true solucao encontrada
 	public boolean Resultado () {
-		if(becoSemSaida() && 64 == (int)this.getTempoUltimoMovimentoCavalo()){
+		if(becoSemSaida() && (64 == (int)this.getTempoUltimoMovimentoCavalo())){
 			return true;
 		}
 		return false;
