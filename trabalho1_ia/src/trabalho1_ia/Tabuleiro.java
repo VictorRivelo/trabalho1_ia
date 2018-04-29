@@ -3,7 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[5][5];
+	private byte[][] tabuleiro = new byte[7][7];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
@@ -170,7 +170,14 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		} else if(this.qtdMovimentosValidos < t2.qtdMovimentosValidos) {
 			return -1;
 		}
+		
+		if(this.tempoUltimoMovimentoCavalo > t2.tempoUltimoMovimentoCavalo) {
+			return 1;
+		} else if (this.tempoUltimoMovimentoCavalo < t2.tempoUltimoMovimentoCavalo) {
+			return -1;
+		}
 		return 0;
+
 	}
 	//caso true, backtracking testar o próximo da lista de movimentos
 	public boolean becoSemSaida() {

@@ -25,7 +25,7 @@ public class InteligenciaArtificial {
 			tabuleiroAtual = memoria.remove(0);
 			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
 				tabuleiroAtual = memoria.remove(0);
-				
+				tabuleiroAtual.getMovimentosValidos();
 			}
 			System.out.println(tabuleiroAtual.toString());
 			System.out.println("tempo ultimo movimento cavalo: " + tabuleiroAtual.getTempoUltimoMovimentoCavalo());
