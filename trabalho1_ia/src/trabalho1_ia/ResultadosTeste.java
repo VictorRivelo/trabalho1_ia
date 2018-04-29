@@ -13,19 +13,23 @@ public class ResultadosTeste {
 		this.numeroPassos = numeroPassos;
 		this.tabuleiroResultante = tabuleiro;
 	}
-	
+	//Tempo de execucao do algoritmo
 	public Long getTempo() {
 		return tempo;
 	}
 	public void setTempo(Long tempo) {
 		this.tempo = tempo;
 	}
+	
+	//Numero de passos que o algoritmo precisou pra encontrar a solucao
 	public Long getNumeroPassos() {
 		return numeroPassos;
 	}
 	public void setNumeroPassos(Long numeroPassos) {
 		this.numeroPassos = numeroPassos;
 	}
+	
+	//Tabuleiro com a solução
 	public Tabuleiro getTabuleiroResultante() {
 		return tabuleiroResultante;
 	}
@@ -33,6 +37,7 @@ public class ResultadosTeste {
 		this.tabuleiroResultante = tabuleiroResultante;
 	}
 	
+	//Converte os dados da classe para uma string apresentavel
 	public String toString() {
 		StringBuilder outputString = new StringBuilder();
 		outputString.append("O algoritmo "+ tipoAlgoritmo.toString() +" executou em "+tempo.toString()+" segundos.");
