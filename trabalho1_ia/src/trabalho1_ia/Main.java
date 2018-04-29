@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) {	
-		/*ResultadosTeste resultadosAEstrela = InteligenciaArtificial.aEstrela();
-		System.out.println(resultadosAEstrela.toString());*/
+		ResultadosTeste resultadosAEstrela = InteligenciaArtificial.aEstrela();
+		//System.out.println(resultadosAEstrela.toString());
 		
-		Tabuleiro tab = new Tabuleiro(3, 7);
+		/*Tabuleiro tab = new Tabuleiro(3, 7);
 		System.out.println(tab.toString());
 		
 		ArrayList<Tabuleiro> movimentosValidos = tab.getMovimentosValidos();
@@ -29,7 +29,7 @@ public class Main {
 			System.out.println("qtd de subsequentes do movimento numero "+i+": "+ melhorMovimento.getQtdMovimentosValidos());
 			System.out.println(melhorMovimento.toString());
 			i++;
-		}
+		}*/
 		
 		/*ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela();
 		System.out.println(resultadosSmaEstrela.toString());*/

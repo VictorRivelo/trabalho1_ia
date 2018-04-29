@@ -3,7 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[8][8];
+	private byte[][] tabuleiro = new byte[5][5];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
@@ -14,8 +14,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		nLinhas = tabuleiro.length;
 		nColunas = tabuleiro[0].length;
 
-		for(int i=0; i <= 7; i++) {
-			for(int j=0; j <= 7; j++) {
+		for(int i=0; i < nLinhas; i++) {
+			for(int j=0; j < nColunas; j++) {
 				tabuleiro[i][j] = 0;
 			}
 		}
@@ -39,8 +39,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		nLinhas = this.tabuleiro.length;
 		nColunas = this.tabuleiro[0].length;
 		
-		for(int i=0; i <= 7; i++) {
-			for(int j=0; j <= 7; j++) {
+		for(int i=0; i < nLinhas; i++) {
+			for(int j=0; j < nColunas; j++) {
 				this.tabuleiro[i][j] = tabuleiro.getTabuleiro()[i][j];
 			}
 		}		
@@ -66,8 +66,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	
 	public String toString() {
 		StringBuilder outputString = new StringBuilder();
-		for(int i=0; i <= 7; i++) {
-			for(int j=0; j <= 7; j++) {
+		for(int i=0; i < nLinhas; i++) {
+			for(int j=0; j < nColunas; j++) {
 				outputString.append("["+tabuleiro[i][j]+"]");
 			}
 			outputString.append(System.lineSeparator());
@@ -148,7 +148,6 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		}		
 		
 		this.qtdMovimentosValidos = movimentosValidos.size();
-		System.out.println("qtd de movimentos validos calculada: " + qtdMovimentosValidos);
 		return movimentosValidos;
 	}
 	
@@ -183,7 +182,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	
 	//caso true solucao encontrada
 	public boolean Resultado () {
-		if(becoSemSaida() && (64 == (int)this.getTempoUltimoMovimentoCavalo())){
+		if(becoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
 			return true;
 		}
 		return false;
