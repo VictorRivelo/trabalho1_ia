@@ -126,9 +126,9 @@ public class Tabuleiro {
 		try{
 			Tabuleiro tabuleiro = (Tabuleiro) this.clone();
 			//falta colocar o valor na celula [linha][coluna]
-			//salvar o last, posicao do cavalo
 			tabuleiro.linhaCavalo = Linha;
 			tabuleiro.colunaCavalo = Coluna;
+			Last = new int [linhaCavalo][colunaCavalo]; 
 			return tabuleiro;
 		}catch(Exception e){
 			System.err.println("CloneNotSupportedException:" + e.getMessage());
