@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Tabuleiro {
 	byte[][] tabuleiro = new byte[8][8];
 	int linhaCavalo, colunaCavalo;
+	int nLinhas , nColunas;
 	
 	public Tabuleiro() {
 		for(int i=0; i<7; i++) {
@@ -12,8 +13,8 @@ public class Tabuleiro {
 				tabuleiro[i][j] = 0;
 			}
 		}
-	 linhaCavalo = tabuleiro.length;
-	 colunaCavalo = tabuleiro[0].length;
+	 nLinhas = tabuleiro.length;
+	 nColunas = tabuleiro[0].length;
 	}
 	
 	public String toString() {
