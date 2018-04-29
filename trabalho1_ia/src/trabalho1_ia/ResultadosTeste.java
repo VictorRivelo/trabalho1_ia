@@ -1,5 +1,6 @@
 package trabalho1_ia;
 
+//Encapsula os dados que serao usados para comparar os algoritmos
 public class ResultadosTeste {
 	private TipoAlgoritmo tipoAlgoritmo;
 	private Long tempo;
@@ -32,13 +33,14 @@ public class ResultadosTeste {
 		this.tabuleiroResultante = tabuleiroResultante;
 	}
 	
-	public void imprimeResultado() {
+	public String toString() {
 		StringBuilder outputString = new StringBuilder();
 		outputString.append("O algoritmo "+ tipoAlgoritmo.toString() +" executou em "+tempo.toString()+" segundos.");
 		outputString.append("Foram necessários "+tempo.toString()+" passos.");
 		outputString.append("O tabuleiro resultante é: ");
 		outputString.append(tabuleiroResultante.toString());
 		outputString.append(System.lineSeparator());
+		return outputString.toString();
 	}
 	
 }
