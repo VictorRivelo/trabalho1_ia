@@ -4,7 +4,7 @@ import java.util.List;
 
 public class InteligenciaArtificial {
 
-	
+	//Executa o A*
 	public static ResultadosTeste aEstrela() {
 		Long tempo = 0L;
 		Long numeroPassos = 0L;
@@ -16,6 +16,7 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
+	//Executa o SMA*
 	public static ResultadosTeste smaEstrela() {
 		Long tempo = 0L;
 		Long numeroPassos = 0L;
@@ -27,7 +28,7 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
-	//Aqui aplica a heurística pra achar o melhor movimento
+	//aplica a heurística pra selecionar o melhor movimento
 	private static Tabuleiro getMelhorMovimento(List<Tabuleiro> movimentosValidos) {
 		return movimentosValidos.get(0);
 	}

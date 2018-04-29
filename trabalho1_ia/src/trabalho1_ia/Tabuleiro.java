@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tabuleiro {
 	byte[][] tabuleiro = new byte[8][8];
-	int linhaCavalo, colunaCavalo;
+	byte linhaCavalo, colunaCavalo;
 	
 	public Tabuleiro() {
 		for(int i=0; i<7; i++) {
