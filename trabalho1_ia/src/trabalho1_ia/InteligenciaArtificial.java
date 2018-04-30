@@ -45,14 +45,33 @@ public class InteligenciaArtificial {
 	//Executa o SMA*
 	public static ResultadosTeste smaEstrela() {
 		Long numeroPassos = 0L;
-		Tabuleiro tabuleiro = new Tabuleiro();
-		
+		Tabuleiro tabuleiroAtual = new Tabuleiro(1,1);
 		
 		long tempoInicial = System.nanoTime();		
 		
 		//Aqui fica a lÃ³gica do SMA*
 		// link de um pseudocodigo parece muito bom, da pra usar de base tambÃ©m
 		// https://en.wikipedia.org/wiki/SMA*
+		
+		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
+		
+		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));
+		Collections.sort(memoria);//o(n log n)
+		
+		while(!tabuleiroAtual.Resultado()) {
+			tabuleiroAtual = memoria.remove(0);//o(1)
+			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
+			Collections.sort(memoria);//o(n log n)
+			
+			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
+				//Minha idéia é criar um outro Array de tamanho X e adicionar o tabuleiroAtual
+				//Quando array.size==x podamos o braço da árvore(backtrack)
+				tabuleiroAtual = memoria.remove(0); //o(1)
+				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
+				Collections.sort(memoria);//o(n log n)
+			}
+			numeroPassos++;
+		}
 		
 		long tempoFinal = System.nanoTime();
 		
