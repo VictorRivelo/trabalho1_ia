@@ -50,8 +50,8 @@ public class InteligenciaArtificial {
 		
 		long tempoInicial = System.nanoTime();		
 		
-		//Aqui fica a lógica do SMA*
-		// link de um pseudocodigo parece muito bom, da pra usar de base também
+		//Aqui fica a lÃ³gica do SMA*
+		// link de um pseudocodigo parece muito bom, da pra usar de base tambÃ©m
 		// https://en.wikipedia.org/wiki/SMA*
 		
 		long tempoFinal = System.nanoTime();
@@ -66,7 +66,7 @@ public class InteligenciaArtificial {
 		//Retorna todos os movimentos validos a partir da posicao atual
 		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
 		
-		//Itera sobre os movimentos validos, calculando o n�mero de
+		//Itera sobre os movimentos validos, calculando o número de
 		//movimentos sucessores de cada um
 		for(Tabuleiro tab : melhoresMovimentos) {
 			tab.getMovimentosValidos();
@@ -75,7 +75,7 @@ public class InteligenciaArtificial {
 		//Ordena a lista de movimentos validos. Para isso eh usado o criterio do compareTo
 		//que coloca primeiro aqueles que tem menor quantidade de movimentos sucessores
 		//conforme determinado pela heuristica de Warnsdorff
-		Collections.sort(melhoresMovimentos);
+		//Collections.sort(melhoresMovimentos);
 		
 		return melhoresMovimentos;
 	}
