@@ -3,6 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class InteligenciaArtificial {
 
@@ -18,23 +19,23 @@ public class InteligenciaArtificial {
 		//https://en.wikipedia.org/wiki/A*_search_algorithm
 				
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
+		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));
+		Collections.sort(memoria);//o(n log n)
 		
 		while(!tabuleiroAtual.Resultado()) {
-			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));
-			Collections.sort(memoria);
-			tabuleiroAtual = memoria.remove(0);
+			tabuleiroAtual = memoria.remove(0);//o(1)
+			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
+			Collections.sort(memoria);//o(n log n)
+			
 			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
-				tabuleiroAtual = memoria.remove(0);
-				tabuleiroAtual.getMovimentosValidos();
+				tabuleiroAtual = memoria.remove(0); //o(1)
+				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
+				Collections.sort(memoria);//o(n log n)
 			}
-			System.out.println(tabuleiroAtual.toString());
-			System.out.println("tempo ultimo movimento cavalo: " + tabuleiroAtual.getTempoUltimoMovimentoCavalo());
+			numeroPassos++;
 		}
 		
 		long tempoFinal = System.nanoTime();
-		
-		System.out.println("O resultado encontrado foi: ");
-		System.out.println(tabuleiroAtual.toString());
 		
 		ResultadosTeste resultados = new ResultadosTeste(TipoAlgoritmo.A_ESTRELA, tempoFinal - tempoInicial, numeroPassos, tabuleiroAtual);
 		return resultados;

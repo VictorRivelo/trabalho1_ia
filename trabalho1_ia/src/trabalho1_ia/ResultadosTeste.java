@@ -40,9 +40,9 @@ public class ResultadosTeste {
 	//Converte os dados da classe para uma string apresentavel
 	public String toString() {
 		StringBuilder outputString = new StringBuilder();
-		outputString.append("O algoritmo "+ tipoAlgoritmo.toString() +" executou em "+tempo.toString()+" segundos.");
-		outputString.append("Foram necessários "+tempo.toString()+" passos.");
-		outputString.append("O tabuleiro resultante é: ");
+		outputString.append("O algoritmo "+ tipoAlgoritmo.toString() +" executou em "+(tempo/1000000000)+" segundos.\n");
+		outputString.append("Foram necessários "+numeroPassos+" passos.\n");
+		outputString.append("O tabuleiro resultante é: \n");
 		outputString.append(tabuleiroResultante.toString());
 		outputString.append(System.lineSeparator());
 		return outputString.toString();
