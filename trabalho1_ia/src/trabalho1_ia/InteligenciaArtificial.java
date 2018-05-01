@@ -88,6 +88,10 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
+	public static ResultadosTeste bestFirstSearch() {
+		return null;
+	}
+	
 	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,
 	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
 	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo) {
@@ -112,7 +116,6 @@ public class InteligenciaArtificial {
 		
 		return melhoresMovimentos;
 	}
-
 	
 	private static class AEstrelaComparator implements Comparator<Tabuleiro> {
 
