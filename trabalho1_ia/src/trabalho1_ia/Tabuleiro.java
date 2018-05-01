@@ -8,7 +8,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
 	private byte tempoUltimoMovimentoCavalo = 0;
-	
+
+
 	//Cria um tabuleiro vazio sem cavalo
 	public Tabuleiro() {
 		nLinhas = tabuleiro.length;
@@ -194,5 +195,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		}
 		return false;
 	}
+	
+
 
 }

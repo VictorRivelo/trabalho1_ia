@@ -2,10 +2,13 @@ package trabalho1_ia;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.Comparator;
 
 public class InteligenciaArtificial {
+	
+	private static BestFirstComparator bestFirstComparator = new BestFirstComparator();
+	private static AEstrelaComparator aEstrelaComparator = new AEstrelaComparator();
+	
 
 	//Executa o A*
 	public static ResultadosTeste aEstrela() {
@@ -19,18 +22,18 @@ public class InteligenciaArtificial {
 		//https://en.wikipedia.org/wiki/A*_search_algorithm
 				
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
-		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));
-		Collections.sort(memoria);//o(n log n)
+		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));
+		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.Resultado()) {
 			tabuleiroAtual = memoria.remove(0);//o(1)
-			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
-			Collections.sort(memoria);//o(n log n)
+			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
+			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			
 			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
 				tabuleiroAtual = memoria.remove(0); //o(1)
-				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
-				Collections.sort(memoria);//o(n log n)
+				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
+				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			}
 			numeroPassos++;
 		}
@@ -43,7 +46,7 @@ public class InteligenciaArtificial {
 	
 	
 	//Executa o SMA*
-	public static ResultadosTeste smaEstrela() {
+	public static ResultadosTeste smaEstrela(long tamanhoMemoria) {
 		Long numeroPassos = 0L;
 		Tabuleiro tabuleiroAtual = new Tabuleiro(1,1);
 		
@@ -54,34 +57,40 @@ public class InteligenciaArtificial {
 		// https://en.wikipedia.org/wiki/SMA*
 		
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
-		
-		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));
-		Collections.sort(memoria);//o(n log n)
+		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));
+		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.Resultado()) {
 			tabuleiroAtual = memoria.remove(0);//o(1)
-			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
-			Collections.sort(memoria);//o(n log n)
+			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
+			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+			
+			//Parte do SMA* que chega o tamanho da memoria e elimina os caminhos menos promissores
+			if(memoria.size() > tamanhoMemoria) {				
+				ArrayList<Tabuleiro> listaRemovida = 
+						new ArrayList<Tabuleiro>(
+								memoria.subList((int)memoria.size(), memoria.size()));
+				memoria.removeAll(listaRemovida);
+			}			
 			
 			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
-				//Minha idéia é criar um outro Array de tamanho X e adicionar o tabuleiroAtual
-				//Quando array.size==x podamos o braço da árvore(backtrack)
 				tabuleiroAtual = memoria.remove(0); //o(1)
-				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual));//o(n)
-				Collections.sort(memoria);//o(n log n)
+				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
+				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			}
 			numeroPassos++;
 		}
 		
 		long tempoFinal = System.nanoTime();
 		
-		ResultadosTeste resultados = new ResultadosTeste(TipoAlgoritmo.SMA_ESTRELA, tempoFinal - tempoInicial, numeroPassos, tabuleiro);
+		ResultadosTeste resultados = new ResultadosTeste(TipoAlgoritmo.SMA_ESTRELA, 
+				tempoFinal - tempoInicial, numeroPassos, tabuleiroAtual);
 		return resultados;
 	}
 	
 	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,
 	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
-	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro) {
+	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo) {
 		//Retorna todos os movimentos validos a partir da posicao atual
 		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
 		
@@ -94,8 +103,54 @@ public class InteligenciaArtificial {
 		//Ordena a lista de movimentos validos. Para isso eh usado o criterio do compareTo
 		//que coloca primeiro aqueles que tem menor quantidade de movimentos sucessores
 		//conforme determinado pela heuristica de Warnsdorff
-		//Collections.sort(melhoresMovimentos);
+		if(tipoAlgoritmo.equals(TipoAlgoritmo.A_ESTRELA) || tipoAlgoritmo.equals(TipoAlgoritmo.SMA_ESTRELA)) {
+			Collections.sort(melhoresMovimentos, aEstrelaComparator);
+		} else {
+			Collections.sort(melhoresMovimentos, bestFirstComparator);
+		}
+		
 		
 		return melhoresMovimentos;
 	}
+
+	
+	private static class AEstrelaComparator implements Comparator<Tabuleiro> {
+
+		@Override
+		public int compare(Tabuleiro t1, Tabuleiro t2) {
+			if(t1.getQtdMovimentosValidos() > t2.getQtdMovimentosValidos()) {
+				return 1;
+			} else if(t1.getQtdMovimentosValidos() < t2.getQtdMovimentosValidos()) {
+				return -1;
+			}
+			
+			if(t1.getTempoUltimoMovimentoCavalo() > t2.getTempoUltimoMovimentoCavalo()) {
+				return 1;
+			} else if (t1.getTempoUltimoMovimentoCavalo() < t2.getTempoUltimoMovimentoCavalo()) {
+				return -1;
+			}
+			return 0;
+		}
+		
+	}	
+	
+
+	private static class BestFirstComparator implements Comparator<Tabuleiro> {
+
+		@Override
+		public int compare(Tabuleiro t1, Tabuleiro t2) {
+			if(t1.getQtdMovimentosValidos() > t2.getQtdMovimentosValidos()) {
+				return 1;
+			} 
+			if(t1.getQtdMovimentosValidos() < t2.getQtdMovimentosValidos()) {
+				return -1;
+			}
+			return 0;
+		}
+		
+	}
+	
+
+	
+	
 }
