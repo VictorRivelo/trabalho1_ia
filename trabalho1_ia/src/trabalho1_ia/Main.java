@@ -10,12 +10,9 @@ public class Main {
 		ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela(10000);
 		System.out.println(resultadosSmaEstrela.toString());
 		
-<<<<<<< HEAD
 		/*System.out.println("Executando best first search...");
 		ResultadosTeste resultadosBestFirst = InteligenciaArtificial.bestFirstSearch();
 		System.out.println(resultadosBestFirst.toString());*/
 		
-=======
->>>>>>> parent of 512a8d0... comparators
 	}
 }
