@@ -27,6 +27,8 @@ public class InteligenciaArtificial {
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.isResposta()) {
+			System.out.println(tabuleiroAtual.toString());
+			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
 			tabuleiroAtual = memoria.remove(0);//o(1)
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -106,7 +108,7 @@ public class InteligenciaArtificial {
 			}
 			
 			//Ordena a lista de movimentos validos pela heuristica do best first
-			Collections.sort(tabuleiro.getMovimentosValidos(), bestFirstComparator);
+			//Collections.sort(tabuleiro.getMovimentosValidos(), bestFirstComparator);
 
 			//Verifica se o cavalo ja tentou todos os caminhos partindo da posicao atual 
 			//ocorre se ele ja fez backtracking por todos eles
@@ -134,7 +136,7 @@ public class InteligenciaArtificial {
 	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
 	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo) {
 		//Retorna todos os movimentos validos a partir da posicao atual
-		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.getMovimentosValidos();
+		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.calculaMovimentosValidos();
 		
 		//Itera sobre os movimentos validos, calculando o número de
 		//movimentos sucessores de cada um

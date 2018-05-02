@@ -6,13 +6,13 @@ public class Main {
 		ResultadosTeste resultadosAEstrela = InteligenciaArtificial.aEstrela();
 		System.out.println(resultadosAEstrela.toString());*/
 		
-		/*System.out.println("Executando SMA*");
+		System.out.println("Executando SMA*");
 		ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela(10000);
-		System.out.println(resultadosSmaEstrela.toString());*/
+		System.out.println(resultadosSmaEstrela.toString());
 		
-		System.out.println("Executando best first search...");
+		/*System.out.println("Executando best first search...");
 		ResultadosTeste resultadosBestFirst = InteligenciaArtificial.bestFirstSearch();
-		System.out.println(resultadosBestFirst.toString());
+		System.out.println(resultadosBestFirst.toString());*/
 		
 	}
 }

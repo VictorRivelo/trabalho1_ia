@@ -41,7 +41,6 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.colunaCavalo = colunaCavalo;
 		this.tempoUltimoMovimentoCavalo = (byte)(this.tempoUltimoMovimentoCavalo+1);
 		this.tabuleiro[linhaCavalo][colunaCavalo] = tempoUltimoMovimentoCavalo;
-		movimentosValidos = calculaMovimentosValidos();
 	}
 	
 	//Copia um tabuleiro e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
@@ -61,7 +60,6 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
 		this.linhaCavalo = linhaCavalo;
 		this.colunaCavalo = colunaCavalo;
-		movimentosValidos = calculaMovimentosValidos();
 	}
 	
 	public ArrayList<Tabuleiro> getMovimentosValidos() {
