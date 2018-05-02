@@ -3,6 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Stack;
 
 public class InteligenciaArtificial {
 	
@@ -89,7 +90,53 @@ public class InteligenciaArtificial {
 	}
 	
 	public static ResultadosTeste bestFirstSearch() {
-		return null;
+		
+		Tabuleiro tabuleiro = new Tabuleiro(1,1);
+		
+		Stack<Tabuleiro> pilha = new Stack<Tabuleiro>();
+		
+		ArrayList<Tabuleiro> movimentos; 
+		
+		long tempoInicial = System.nanoTime();
+		long numeroPassos = 0;
+
+		while(!(tabuleiro.getTempoUltimoMovimentoCavalo() == 64)) {
+			numeroPassos++;
+			tabuleiro.setJaVisitouTabuleiro(true);
+			
+			if(tabuleiro.getQtdMovimentosValidos() == 0) {
+				//System.out.println("achou beco sem saida");
+				if(tabuleiro.Resultado()) {
+					System.out.println("beco sem saida eh a resposta");
+					break;
+				} 
+				System.out.println(tabuleiro.toString());
+				System.out.println("ultimo movimento do cavalo: " + tabuleiro.getTempoUltimoMovimentoCavalo());
+				System.out.println("fazendo backtracking");
+				tabuleiro = pilha.pop();
+			}
+			movimentos = getMelhoresMovimentos(tabuleiro, TipoAlgoritmo.BEST_FIRST);
+
+			//Verifica se o cavalo ja tentou todos os caminhos partindo da posicao atual 
+			//ocorre se ele ja fez backtracking por todos eles
+			boolean jaTestouTodosCaminhos = true;
+			for(Tabuleiro movimento : movimentos) {
+				if(!movimento.isJaVisitouTabuleiro()) {
+					//Achou um caminho que nao foi percorrido ainda
+					//Escolhe esse caminho pra percorrer
+					jaTestouTodosCaminhos = false;
+					pilha.push(tabuleiro);
+					tabuleiro = movimento;					
+				}
+			}
+			//se ja testou todos subcaminhos, volta pro no anterior
+			if(jaTestouTodosCaminhos) {
+				tabuleiro = pilha.pop();
+			} 
+		}
+
+		long tempoFinal = System.nanoTime();
+		return new ResultadosTeste(TipoAlgoritmo.BEST_FIRST, tempoFinal - tempoInicial, numeroPassos, tabuleiro);
 	}
 	
 	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,

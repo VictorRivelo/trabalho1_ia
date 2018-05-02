@@ -3,12 +3,20 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[7][7];
+	private byte[][] tabuleiro = new byte[5][5];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
 	private byte tempoUltimoMovimentoCavalo = 0;
+	private boolean jaVisitouTabuleiro = false;
 
+	public boolean isJaVisitouTabuleiro() {
+		return jaVisitouTabuleiro;
+	}
+
+	public void setJaVisitouTabuleiro(boolean jaVisitouTabuleiro) {
+		this.jaVisitouTabuleiro = jaVisitouTabuleiro;
+	}
 
 	//Cria um tabuleiro vazio sem cavalo
 	public Tabuleiro() {
@@ -32,6 +40,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.colunaCavalo = colunaCavalo;
 		this.tempoUltimoMovimentoCavalo = (byte)(this.tempoUltimoMovimentoCavalo+1);
 		this.tabuleiro[linhaCavalo][colunaCavalo] = tempoUltimoMovimentoCavalo;
+		getMovimentosValidos();
 	}
 	
 	//Copia um tabuleiro e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
@@ -51,6 +60,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
 		this.linhaCavalo = linhaCavalo;
 		this.colunaCavalo = colunaCavalo;
+		getMovimentosValidos();
 	}
 	
 	public byte[][] getTabuleiro() {
