@@ -26,12 +26,12 @@ public class InteligenciaArtificial {
 		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
-		while(!tabuleiroAtual.Resultado()) {
+		while(!tabuleiroAtual.isResposta()) {
 			tabuleiroAtual = memoria.remove(0);//o(1)
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			
-			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
+			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
 				tabuleiroAtual = memoria.remove(0); //o(1)
 				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
 				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -61,7 +61,7 @@ public class InteligenciaArtificial {
 		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
-		while(!tabuleiroAtual.Resultado()) {
+		while(!tabuleiroAtual.isResposta()) {
 			tabuleiroAtual = memoria.remove(0);//o(1)
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -74,7 +74,7 @@ public class InteligenciaArtificial {
 				memoria.removeAll(listaRemovida);
 			}			
 			
-			while(tabuleiroAtual.becoSemSaida() && !tabuleiroAtual.Resultado()) {
+			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
 				tabuleiroAtual = memoria.remove(0); //o(1)
 				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
 				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -92,39 +92,35 @@ public class InteligenciaArtificial {
 	public static ResultadosTeste bestFirstSearch() {
 		
 		Tabuleiro tabuleiro = new Tabuleiro(1,1);
-		
 		Stack<Tabuleiro> pilha = new Stack<Tabuleiro>();
-		
-		ArrayList<Tabuleiro> movimentos; 
 		
 		long tempoInicial = System.nanoTime();
 		long numeroPassos = 0;
 
-		while(!(tabuleiro.getTempoUltimoMovimentoCavalo() == 64)) {
+		while(!tabuleiro.isResposta()) {
 			numeroPassos++;
 			tabuleiro.setJaVisitouTabuleiro(true);
 			
-			if(tabuleiro.getQtdMovimentosValidos() == 0) {
-				//System.out.println("achou beco sem saida");
-				if(tabuleiro.Resultado()) {
-					System.out.println("beco sem saida eh a resposta");
-					break;
-				} 
+			if(tabuleiro.achouBecoSemSaida()) {
+				System.out.println("achou beco sem saida");
 				System.out.println(tabuleiro.toString());
 				System.out.println("ultimo movimento do cavalo: " + tabuleiro.getTempoUltimoMovimentoCavalo());
 				System.out.println("fazendo backtracking");
 				tabuleiro = pilha.pop();
 			}
-			movimentos = getMelhoresMovimentos(tabuleiro, TipoAlgoritmo.BEST_FIRST);
+			
+			//Ordena a lista de movimentos validos pela heuristica do best first
+			Collections.sort(tabuleiro.getMovimentosValidos(), bestFirstComparator);
 
 			//Verifica se o cavalo ja tentou todos os caminhos partindo da posicao atual 
 			//ocorre se ele ja fez backtracking por todos eles
 			boolean jaTestouTodosCaminhos = true;
-			for(Tabuleiro movimento : movimentos) {
-				if(!movimento.isJaVisitouTabuleiro()) {
+			for(Tabuleiro movimento : tabuleiro.getMovimentosValidos()) {
+				if(!tabuleiro.jaVisitouTabuleiro()) {
 					//Achou um caminho que nao foi percorrido ainda
 					//Escolhe esse caminho pra percorrer
 					jaTestouTodosCaminhos = false;
+					System.out.println("empilhando");
 					pilha.push(tabuleiro);
 					tabuleiro = movimento;					
 				}

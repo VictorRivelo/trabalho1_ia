@@ -9,8 +9,9 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	private int qtdMovimentosValidos;
 	private byte tempoUltimoMovimentoCavalo = 0;
 	private boolean jaVisitouTabuleiro = false;
+	private ArrayList<Tabuleiro> movimentosValidos;
 
-	public boolean isJaVisitouTabuleiro() {
+	public boolean jaVisitouTabuleiro() {
 		return jaVisitouTabuleiro;
 	}
 
@@ -40,7 +41,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.colunaCavalo = colunaCavalo;
 		this.tempoUltimoMovimentoCavalo = (byte)(this.tempoUltimoMovimentoCavalo+1);
 		this.tabuleiro[linhaCavalo][colunaCavalo] = tempoUltimoMovimentoCavalo;
-		getMovimentosValidos();
+		movimentosValidos = calculaMovimentosValidos();
 	}
 	
 	//Copia um tabuleiro e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
@@ -60,7 +61,11 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
 		this.linhaCavalo = linhaCavalo;
 		this.colunaCavalo = colunaCavalo;
-		getMovimentosValidos();
+		movimentosValidos = calculaMovimentosValidos();
+	}
+	
+	public ArrayList<Tabuleiro> getMovimentosValidos() {
+		return movimentosValidos;
 	}
 	
 	public byte[][] getTabuleiro() {
@@ -86,7 +91,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		return outputString.toString();
 	}
 	
-	public ArrayList<Tabuleiro> getMovimentosValidos(){
+	public ArrayList<Tabuleiro> calculaMovimentosValidos(){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro novoTab;
@@ -191,7 +196,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 
 	}
 	//caso true, backtracking testar o próximo da lista de movimentos
-	public boolean becoSemSaida() {
+	public boolean achouBecoSemSaida() {
 		if(this.qtdMovimentosValidos == 0){
 			return true;
 		}
@@ -199,8 +204,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	}
 	
 	//caso true solucao encontrada
-	public boolean Resultado () {
-		if(becoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
+	public boolean isResposta () {
+		if(achouBecoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
 			return true;
 		}
 		return false;
