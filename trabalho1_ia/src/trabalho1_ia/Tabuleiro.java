@@ -8,7 +8,15 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
 	private byte tempoUltimoMovimentoCavalo = 0;
+	private boolean jaVisitouTabuleiro;
 
+	public boolean jaVisitouTabuleiro() {
+		return jaVisitouTabuleiro;
+	}
+
+	public void setJaVisitouTabuleiro(boolean jaVisitouTabuleiro) {
+		this.jaVisitouTabuleiro = jaVisitouTabuleiro;
+	}
 
 	//Cria um tabuleiro vazio sem cavalo
 	public Tabuleiro() {
@@ -181,7 +189,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 
 	}
 	//caso true, backtracking testar o próximo da lista de movimentos
-	public boolean becoSemSaida() {
+	public boolean achouBecoSemSaida() {
 		if(this.qtdMovimentosValidos == 0){
 			return true;
 		}
@@ -189,8 +197,8 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	}
 	
 	//caso true solucao encontrada
-	public boolean Resultado () {
-		if(becoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
+	public boolean achouResultado () {
+		if(achouBecoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
 			return true;
 		}
 		return false;
