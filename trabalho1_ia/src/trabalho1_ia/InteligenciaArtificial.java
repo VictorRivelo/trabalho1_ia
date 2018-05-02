@@ -91,6 +91,7 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
+<<<<<<< HEAD
 	public static ResultadosTeste bestFirstSearch() {
 		
 		Tabuleiro tabuleiro = new Tabuleiro(1,1);
@@ -132,6 +133,8 @@ public class InteligenciaArtificial {
 		return new ResultadosTeste(TipoAlgoritmo.BEST_FIRST, tempoFinal - tempoInicial, numeroPassos, tabuleiro);
 	}
 	
+=======
+>>>>>>> parent of 512a8d0... comparators
 	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,
 	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
 	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo) {
