@@ -102,10 +102,6 @@ public class InteligenciaArtificial {
 			tabuleiro.setJaVisitouTabuleiro(true);
 			
 			if(tabuleiro.achouBecoSemSaida()) {
-				System.out.println("achou beco sem saida");
-				System.out.println(tabuleiro.toString());
-				System.out.println("ultimo movimento do cavalo: " + tabuleiro.getTempoUltimoMovimentoCavalo());
-				System.out.println("fazendo backtracking");
 				tabuleiro = pilha.pop();
 			}
 			
@@ -116,11 +112,10 @@ public class InteligenciaArtificial {
 			//ocorre se ele ja fez backtracking por todos eles
 			boolean jaTestouTodosCaminhos = true;
 			for(Tabuleiro movimento : tabuleiro.getMovimentosValidos()) {
-				if(!tabuleiro.jaVisitouTabuleiro()) {
+				if(!movimento.jaVisitouTabuleiro()) {
 					//Achou um caminho que nao foi percorrido ainda
 					//Escolhe esse caminho pra percorrer
 					jaTestouTodosCaminhos = false;
-					System.out.println("empilhando");
 					pilha.push(tabuleiro);
 					tabuleiro = movimento;					
 				}
