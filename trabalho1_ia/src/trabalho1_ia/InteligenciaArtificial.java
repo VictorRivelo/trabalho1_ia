@@ -68,7 +68,7 @@ public class InteligenciaArtificial {
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			
-			//Parte do SMA* que chega o tamanho da memoria e elimina os caminhos menos promissores
+			//Parte do SMA* que checa o tamanho da memoria e elimina os caminhos menos promissores
 			if(memoria.size() > tamanhoMemoria) {				
 				ArrayList<Tabuleiro> listaRemovida = 
 						new ArrayList<Tabuleiro>(
