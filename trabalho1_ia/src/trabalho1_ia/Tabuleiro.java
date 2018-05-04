@@ -3,7 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[6][6];
+	private byte[][] tabuleiro = new byte[10][10];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;

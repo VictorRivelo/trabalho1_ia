@@ -7,12 +7,12 @@ public class Main {
 		System.out.println(resultadosAEstrela.toString());*/
 		
 		System.out.println("Executando SMA*");
-		ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela(500);
-		System.out.println(resultadosSmaEstrela.toString());
+		/*ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela(500);
+		System.out.println(resultadosSmaEstrela.toString());*/
 		
-		/*System.out.println("Executando best first search...");
+		System.out.println("Executando best first search...");
 		ResultadosTeste resultadosBestFirst = InteligenciaArtificial.bestFirstSearch();
-		System.out.println(resultadosBestFirst.toString());*/
+		System.out.println(resultadosBestFirst.toString());
 		
 	}
 }
