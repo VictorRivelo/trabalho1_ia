@@ -3,12 +3,13 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[7][7];
+	private byte[][] tabuleiro = new byte[5][5];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
 	private byte tempoUltimoMovimentoCavalo = 0;
-	private boolean jaVisitouTabuleiro;
+	private boolean jaVisitouTabuleiro = false;
+	private ArrayList<Tabuleiro> movimentosValidos;
 
 	public boolean jaVisitouTabuleiro() {
 		return jaVisitouTabuleiro;
@@ -61,6 +62,10 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		this.colunaCavalo = colunaCavalo;
 	}
 	
+	public ArrayList<Tabuleiro> getMovimentosValidos() {
+		return movimentosValidos;
+	}
+	
 	public byte[][] getTabuleiro() {
 		return tabuleiro;
 	}
@@ -84,7 +89,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		return outputString.toString();
 	}
 	
-	public ArrayList<Tabuleiro> getMovimentosValidos(){
+	public ArrayList<Tabuleiro> calculaMovimentosValidos(){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro novoTab;
@@ -197,7 +202,7 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 	}
 	
 	//caso true solucao encontrada
-	public boolean achouResultado () {
+	public boolean isResposta () {
 		if(achouBecoSemSaida() && (nLinhas*nLinhas == (int)this.getTempoUltimoMovimentoCavalo())){
 			return true;
 		}
