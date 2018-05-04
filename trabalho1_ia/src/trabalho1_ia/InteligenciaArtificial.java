@@ -96,7 +96,7 @@ public class InteligenciaArtificial {
 			if(memoria.size() > tamanhoMemoria) {				
 				ArrayList<Tabuleiro> listaRemovida = 
 						new ArrayList<Tabuleiro>(
-								memoria.subList((int)memoria.size(), memoria.size()));
+								memoria.subList((int)memoria.size()/2, memoria.size()));
 				memoria.removeAll(listaRemovida);
 			}			
 			
@@ -117,7 +117,7 @@ public class InteligenciaArtificial {
 	
 	public static ResultadosTeste bestFirstSearch() {
 		
-		Tabuleiro tabuleiro = new Tabuleiro(1,1);
+		Tabuleiro tabuleiro = new Tabuleiro(3,1);
 		tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
 		 
 		ArrayList<Tabuleiro> subcaminhosNaoVisitados = new ArrayList<Tabuleiro>();
@@ -203,8 +203,8 @@ public class InteligenciaArtificial {
 
 		@Override
 		public int compare(Tabuleiro t1, Tabuleiro t2) {
-			double heuristicaT1 = 10*t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo()/Math.pow(t1.getTabuleiro().length, 2.0));
-			double heuristicaT2 = 10*t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo()/Math.pow(t2.getTabuleiro().length, 2.0));
+			double heuristicaT1 = t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo());
+			double heuristicaT2 = t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo());
 			if(heuristicaT1 > heuristicaT2) {
 				//Se T1 tem mais valor que T2, deve vir primeiro na lista
 				return -1;

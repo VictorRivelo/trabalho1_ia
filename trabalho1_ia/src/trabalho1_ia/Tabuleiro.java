@@ -2,8 +2,8 @@ package trabalho1_ia;
 
 import java.util.ArrayList;
 
-public class Tabuleiro implements Comparable<Tabuleiro> {
-	private byte[][] tabuleiro = new byte[10][10];
+public class Tabuleiro  {
+	private byte[][] tabuleiro = new byte[11][11];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
@@ -177,26 +177,6 @@ public class Tabuleiro implements Comparable<Tabuleiro> {
 		return false;
 	}
 	
-	//Compara dois tabuleiros pelo numero de movimentos sucessores
-	//Se o atual tiver mais movimentos do que o comparado, ele eh considerado maior
-	//e vem depois na ordenacao. Se tiver menos, eh considerado menor 
-	//e vem antes na ordenacao.
-	@Override
-	public int compareTo(Tabuleiro t2) {
-		if(this.qtdMovimentosValidos > t2.qtdMovimentosValidos) {
-			return 1;
-		} else if(this.qtdMovimentosValidos < t2.qtdMovimentosValidos) {
-			return -1;
-		}
-		
-		if(this.tempoUltimoMovimentoCavalo > t2.tempoUltimoMovimentoCavalo) {
-			return 1;
-		} else if (this.tempoUltimoMovimentoCavalo < t2.tempoUltimoMovimentoCavalo) {
-			return -1;
-		}
-		return 0;
-
-	}
 	//caso true, backtracking testar o próximo da lista de movimentos
 	public boolean achouBecoSemSaida() {
 		if(this.qtdMovimentosValidos == 0){
