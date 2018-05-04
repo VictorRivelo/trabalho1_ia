@@ -76,8 +76,8 @@ public class InteligenciaArtificial {
 		
 		long tempoInicial = System.nanoTime();		
 		
-		//Aqui fica a lÃ³gica do SMA*
-		// link de um pseudocodigo parece muito bom, da pra usar de base tambÃ©m
+		//Aqui fica a logica do SMA*
+		// link de um pseudocodigo parece muito bom, da pra usar de base tambem
 		// https://en.wikipedia.org/wiki/SMA*
 		
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
@@ -85,6 +85,9 @@ public class InteligenciaArtificial {
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.isResposta()) {
+			System.out.println(tabuleiroAtual.toString());
+			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
+			
 			tabuleiroAtual = memoria.remove(0);//o(1)
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -127,14 +130,9 @@ public class InteligenciaArtificial {
 			numeroPassos++;
 			tabuleiro.setJaVisitouTabuleiro(true);
 			
-			//System.out.println("checando se o tabuleiro atual tem subcaminhos percorridos...");
-			//System.out.println("movimentos validos: " + tabuleiro.getQtdMovimentosValidos());
-			
 			if(tabuleiro.achouBecoSemSaida()) {
 				//No encontrado eh beco sem saida
 				//Volta pro no antecessor
-				System.out.println("achou beco sem saida. voltando pro antecessor de: ");
-				System.out.println(tabuleiro.toString());
 				tabuleiro = pilha.pop();
 			} else {
 				//No encontrado nao eh beco sem saida
@@ -155,12 +153,9 @@ public class InteligenciaArtificial {
 				
 				if(jaTestouTodosSubcaminhos) {
 					//se ja testou todos subcaminhos, volta pro tabuleiro anterior
-					System.out.println("ja testou todos subcaminhos");
 					tabuleiro = pilha.pop();
 				} else {
 					//Se ha subcaminhos nao percorridos, pega o melhor
-					System.out.println("saindo do tabuleiro: ");
-					System.out.println(tabuleiro.toString());
 					//Ordena a lista de subcaminhos nao visitados pelo criterio da
 					//heuristica, ou seja, o que tem menor numero de subcaminhos futuros
 					Collections.sort(subcaminhosNaoVisitados, bestFirstComparator);
@@ -172,8 +167,6 @@ public class InteligenciaArtificial {
 					tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
 				}
 			}
-			//System.out.println(tabuleiro.toString());
-			System.out.println(tabuleiro.getTempoUltimoMovimentoCavalo());
 		}
 
 		long tempoFinal = System.nanoTime();
@@ -210,12 +203,13 @@ public class InteligenciaArtificial {
 
 		@Override
 		public int compare(Tabuleiro t1, Tabuleiro t2) {
-			int heuristicaT1 = 2*t1.getQtdMovimentosValidos() + t1.getTempoUltimoMovimentoCavalo();
-			long heuristicaT2 = 2*t2.getQtdMovimentosValidos() + t2.getTempoUltimoMovimentoCavalo();
+			double heuristicaT1 = 10*t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo()/Math.pow(t1.getTabuleiro().length, 2.0));
+			double heuristicaT2 = 10*t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo()/Math.pow(t2.getTabuleiro().length, 2.0));
 			if(heuristicaT1 > heuristicaT2) {
-				return 1;
-			} else if(heuristicaT1 < heuristicaT2) {
+				//Se T1 tem mais valor que T2, deve vir primeiro na lista
 				return -1;
+			} else if(heuristicaT1 < heuristicaT2) {
+				return 1;
 			}
 			
 			return 0;
