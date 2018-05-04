@@ -14,29 +14,36 @@ public class InteligenciaArtificial {
 	//Executa o A*
 	public static ResultadosTeste aEstrela() {
 		Long numeroPassos = 0L;
-		Tabuleiro tabuleiroAtual = new Tabuleiro(1, 1);
+		
 		
 		long tempoInicial = System.nanoTime();
 		
 		//Aqui fica a logica do A*
 		// link de um pseudocodigo, parece muito bom, da pra usar de base no desenvolvimento
 		//https://en.wikipedia.org/wiki/A*_search_algorithm
-				
+		
+		
+		Tabuleiro tabuleiroAtual = new Tabuleiro(1, 1);
+		tabuleiroAtual.setJaVisitouTabuleiro(true);
+		
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
 		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));
-		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+		//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.isResposta()) {
 			System.out.println(tabuleiroAtual.toString());
 			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
-			tabuleiroAtual = memoria.remove(0);//o(1)
+			tabuleiroAtual = getProximoMovimento(memoria);
+			tabuleiroAtual.setJaVisitouTabuleiro(true);
+			
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
-			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+			//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			
 			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
-				tabuleiroAtual = memoria.remove(0); //o(1)
+				tabuleiroAtual = getProximoMovimento(memoria);
+				tabuleiroAtual.setJaVisitouTabuleiro(true);
 				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
-				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+				//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			}
 			numeroPassos++;
 		}
@@ -47,6 +54,20 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
+	public static Tabuleiro getProximoMovimento(ArrayList<Tabuleiro> movimentosPossiveis){
+		int heuristicaAtual = 0;
+		int heuristicaMelhorTabuleiro = 0;
+		Tabuleiro melhorTabuleiro = null;
+		for(Tabuleiro tab : movimentosPossiveis) {
+			heuristicaAtual = 2*tab.getQtdMovimentosValidos() + tab.getTempoUltimoMovimentoCavalo();
+			
+			if(heuristicaAtual > heuristicaMelhorTabuleiro && !tab.jaVisitouTabuleiro()) {
+				melhorTabuleiro = tab;
+				heuristicaMelhorTabuleiro = heuristicaAtual;
+			}
+		}
+		return melhorTabuleiro;
+	}
 	
 	//Executa o SMA*
 	public static ResultadosTeste smaEstrela(long tamanhoMemoria) {
@@ -94,6 +115,9 @@ public class InteligenciaArtificial {
 	public static ResultadosTeste bestFirstSearch() {
 		
 		Tabuleiro tabuleiro = new Tabuleiro(1,1);
+		tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
+		 
+		ArrayList<Tabuleiro> subcaminhosNaoVisitados = new ArrayList<Tabuleiro>();
 		Stack<Tabuleiro> pilha = new Stack<Tabuleiro>();
 		
 		long tempoInicial = System.nanoTime();
@@ -103,29 +127,53 @@ public class InteligenciaArtificial {
 			numeroPassos++;
 			tabuleiro.setJaVisitouTabuleiro(true);
 			
-			if(tabuleiro.achouBecoSemSaida()) {
-				tabuleiro = pilha.pop();
-			}
+			//System.out.println("checando se o tabuleiro atual tem subcaminhos percorridos...");
+			//System.out.println("movimentos validos: " + tabuleiro.getQtdMovimentosValidos());
 			
-			//Ordena a lista de movimentos validos pela heuristica do best first
-			//Collections.sort(tabuleiro.getMovimentosValidos(), bestFirstComparator);
+			if(tabuleiro.achouBecoSemSaida()) {
+				//No encontrado eh beco sem saida
+				//Volta pro no antecessor
+				System.out.println("achou beco sem saida. voltando pro antecessor de: ");
+				System.out.println(tabuleiro.toString());
+				tabuleiro = pilha.pop();
+			} else {
+				//No encontrado nao eh beco sem saida
+				//Agora deve verificar se esse no tem subcaminhos que ainda nao
+				//foram percorridos
+				boolean jaTestouTodosSubcaminhos = true;
+				subcaminhosNaoVisitados = new ArrayList<Tabuleiro>();
 
-			//Verifica se o cavalo ja tentou todos os caminhos partindo da posicao atual 
-			//ocorre se ele ja fez backtracking por todos eles
-			boolean jaTestouTodosCaminhos = true;
-			for(Tabuleiro movimento : tabuleiro.getMovimentosValidos()) {
-				if(!movimento.jaVisitouTabuleiro()) {
-					//Achou um caminho que nao foi percorrido ainda
-					//Escolhe esse caminho pra percorrer
-					jaTestouTodosCaminhos = false;
+				for(Tabuleiro movimento : tabuleiro.getMovimentosValidos()) {
+					if(!movimento.jaVisitouTabuleiro()) {
+						//Achou um caminho que nao foi percorrido ainda
+						//Coloca esse caminho na lista de subcaminhos nao percorridos
+						subcaminhosNaoVisitados.add(movimento);
+						movimento.calculaMovimentosValidos();
+						jaTestouTodosSubcaminhos = false;
+					} 
+				}
+				
+				if(jaTestouTodosSubcaminhos) {
+					//se ja testou todos subcaminhos, volta pro tabuleiro anterior
+					System.out.println("ja testou todos subcaminhos");
+					tabuleiro = pilha.pop();
+				} else {
+					//Se ha subcaminhos nao percorridos, pega o melhor
+					System.out.println("saindo do tabuleiro: ");
+					System.out.println(tabuleiro.toString());
+					//Ordena a lista de subcaminhos nao visitados pelo criterio da
+					//heuristica, ou seja, o que tem menor numero de subcaminhos futuros
+					Collections.sort(subcaminhosNaoVisitados, bestFirstComparator);
+					//Guarda o tabuleiro atual na pilha
 					pilha.push(tabuleiro);
-					tabuleiro = movimento;					
+					//Pega o melhor subcaminho
+					tabuleiro = subcaminhosNaoVisitados.get(0);
+					//
+					tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
 				}
 			}
-			//se ja testou todos subcaminhos, volta pro no anterior
-			if(jaTestouTodosCaminhos) {
-				tabuleiro = pilha.pop();
-			} 
+			//System.out.println(tabuleiro.toString());
+			System.out.println(tabuleiro.getTempoUltimoMovimentoCavalo());
 		}
 
 		long tempoFinal = System.nanoTime();
@@ -162,17 +210,14 @@ public class InteligenciaArtificial {
 
 		@Override
 		public int compare(Tabuleiro t1, Tabuleiro t2) {
-			if(t1.getQtdMovimentosValidos() > t2.getQtdMovimentosValidos()) {
+			int heuristicaT1 = 2*t1.getQtdMovimentosValidos() + t1.getTempoUltimoMovimentoCavalo();
+			long heuristicaT2 = 2*t2.getQtdMovimentosValidos() + t2.getTempoUltimoMovimentoCavalo();
+			if(heuristicaT1 > heuristicaT2) {
 				return 1;
-			} else if(t1.getQtdMovimentosValidos() < t2.getQtdMovimentosValidos()) {
+			} else if(heuristicaT1 < heuristicaT2) {
 				return -1;
 			}
 			
-			if(t1.getTempoUltimoMovimentoCavalo() > t2.getTempoUltimoMovimentoCavalo()) {
-				return 1;
-			} else if (t1.getTempoUltimoMovimentoCavalo() < t2.getTempoUltimoMovimentoCavalo()) {
-				return -1;
-			}
 			return 0;
 		}
 		
