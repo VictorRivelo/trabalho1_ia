@@ -84,10 +84,7 @@ public class InteligenciaArtificial {
 		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
-		while(!tabuleiroAtual.isResposta()) {
-			System.out.println(tabuleiroAtual.toString());
-			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
-			
+		while(!tabuleiroAtual.isResposta()) {	
 			tabuleiroAtual = memoria.remove(0);//o(1)
 			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -203,8 +200,8 @@ public class InteligenciaArtificial {
 
 		@Override
 		public int compare(Tabuleiro t1, Tabuleiro t2) {
-			double heuristicaT1 = t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo());
-			double heuristicaT2 = t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo());
+			double heuristicaT1 = (t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo()));
+			double heuristicaT2 = (t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo()))*0.5
 			if(heuristicaT1 > heuristicaT2) {
 				//Se T1 tem mais valor que T2, deve vir primeiro na lista
 				return -1;
