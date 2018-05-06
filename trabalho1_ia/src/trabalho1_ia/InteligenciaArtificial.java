@@ -12,47 +12,47 @@ public class InteligenciaArtificial {
 	
 
 	//Executa o A*
-	public static ResultadosTeste aEstrela() {
-		Long numeroPassos = 0L;
-		
-		
-		long tempoInicial = System.nanoTime();
-		
-		//Aqui fica a logica do A*
-		// link de um pseudocodigo, parece muito bom, da pra usar de base no desenvolvimento
-		//https://en.wikipedia.org/wiki/A*_search_algorithm
-		
-		
-		Tabuleiro tabuleiroAtual = new Tabuleiro(1, 1);
-		tabuleiroAtual.setJaVisitouTabuleiro(true);
-		
-		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
-		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));
-		//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
-		
-		while(!tabuleiroAtual.isResposta()) {
-			System.out.println(tabuleiroAtual.toString());
-			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
-			tabuleiroAtual = getProximoMovimento(memoria);
-			tabuleiroAtual.setJaVisitouTabuleiro(true);
-			
-			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
-			//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
-			
-			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
-				tabuleiroAtual = getProximoMovimento(memoria);
-				tabuleiroAtual.setJaVisitouTabuleiro(true);
-				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
-				//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
-			}
-			numeroPassos++;
-		}
-		
-		long tempoFinal = System.nanoTime();
-		
-		ResultadosTeste resultados = new ResultadosTeste(TipoAlgoritmo.A_ESTRELA, tempoFinal - tempoInicial, numeroPassos, tabuleiroAtual);
-		return resultados;
-	}
+//	public static ResultadosTeste aEstrela() {
+//		Long numeroPassos = 0L;
+//		
+//		
+//		long tempoInicial = System.nanoTime();
+//		
+//		//Aqui fica a logica do A*
+//		// link de um pseudocodigo, parece muito bom, da pra usar de base no desenvolvimento
+//		//https://en.wikipedia.org/wiki/A*_search_algorithm
+//		
+//		
+//		Tabuleiro tabuleiroAtual = new Tabuleiro(1, 1);
+//		tabuleiroAtual.setJaVisitouTabuleiro(true);
+//		
+//		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
+//		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));
+//		//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+//		
+//		while(!tabuleiroAtual.isResposta()) {
+//			System.out.println(tabuleiroAtual.toString());
+//			System.out.println("qtd de passos do cavalo: "+tabuleiroAtual.getTempoUltimoMovimentoCavalo());
+//			tabuleiroAtual = getProximoMovimento(memoria);
+//			tabuleiroAtual.setJaVisitouTabuleiro(true);
+//			
+//			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
+//			//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+//			
+//			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
+//				tabuleiroAtual = getProximoMovimento(memoria);
+//				tabuleiroAtual.setJaVisitouTabuleiro(true);
+//				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.A_ESTRELA));//o(n)
+//				//Collections.sort(memoria, aEstrelaComparator);//o(n log n)
+//			}
+//			numeroPassos++;
+//		}
+//		
+//		long tempoFinal = System.nanoTime();
+//		
+//		ResultadosTeste resultados = new ResultadosTeste(TipoAlgoritmo.A_ESTRELA, tempoFinal - tempoInicial, numeroPassos, tabuleiroAtual);
+//		return resultados;
+//	}
 	
 	public static Tabuleiro getProximoMovimento(ArrayList<Tabuleiro> movimentosPossiveis){
 		int heuristicaAtual = 0;
@@ -70,9 +70,9 @@ public class InteligenciaArtificial {
 	}
 	
 	//Executa o SMA*
-	public static ResultadosTeste smaEstrela(long tamanhoMemoria) {
+	public static ResultadosTeste smaEstrela(int tamanhoTabuleiro, int posicaoX, int posicaoY, long tamanhoMemoria) {
 		Long numeroPassos = 0L;
-		Tabuleiro tabuleiroAtual = new Tabuleiro(1,1);
+		Tabuleiro tabuleiroAtual = new Tabuleiro(tamanhoTabuleiro,posicaoX,posicaoY);
 		
 		long tempoInicial = System.nanoTime();		
 		
@@ -81,12 +81,12 @@ public class InteligenciaArtificial {
 		// https://en.wikipedia.org/wiki/SMA*
 		
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
-		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));
+		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA, tamanhoTabuleiro));
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 		
 		while(!tabuleiroAtual.isResposta()) {	
 			tabuleiroAtual = memoria.remove(0);//o(1)
-			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
+			memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA, tamanhoTabuleiro));//o(n)
 			Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			
 			//Parte do SMA* que checa o tamanho da memoria e elimina os caminhos menos promissores
@@ -99,7 +99,7 @@ public class InteligenciaArtificial {
 			
 			while(tabuleiroAtual.achouBecoSemSaida() && !tabuleiroAtual.isResposta()) {
 				tabuleiroAtual = memoria.remove(0); //o(1)
-				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA));//o(n)
+				memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA, tamanhoTabuleiro));//o(n)
 				Collections.sort(memoria, aEstrelaComparator);//o(n log n)
 			}
 			numeroPassos++;
@@ -112,10 +112,10 @@ public class InteligenciaArtificial {
 		return resultados;
 	}
 	
-	public static ResultadosTeste bestFirstSearch() {
+	public static ResultadosTeste bestFirstSearch(int tamanhoTabuleiro, int posicaoX, int posicaoY) {
 		
-		Tabuleiro tabuleiro = new Tabuleiro(3,1);
-		tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
+		Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro,3,1);
+		tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos(tamanhoTabuleiro));
 		 
 		ArrayList<Tabuleiro> subcaminhosNaoVisitados = new ArrayList<Tabuleiro>();
 		Stack<Tabuleiro> pilha = new Stack<Tabuleiro>();
@@ -143,7 +143,7 @@ public class InteligenciaArtificial {
 						//Achou um caminho que nao foi percorrido ainda
 						//Coloca esse caminho na lista de subcaminhos nao percorridos
 						subcaminhosNaoVisitados.add(movimento);
-						movimento.calculaMovimentosValidos();
+						movimento.calculaMovimentosValidos(tamanhoTabuleiro);
 						jaTestouTodosSubcaminhos = false;
 					} 
 				}
@@ -161,7 +161,7 @@ public class InteligenciaArtificial {
 					//Pega o melhor subcaminho
 					tabuleiro = subcaminhosNaoVisitados.get(0);
 					//
-					tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos());
+					tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos(tamanhoTabuleiro));
 				}
 			}
 		}
@@ -172,11 +172,11 @@ public class InteligenciaArtificial {
 	
 	//Retorna a lista de todos os movimentos validos a partir da posicao atual do cavalo,
 	//ordenados pela qualidade do movimento de acordo com a heuristica de Warnsdorff
-	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo) {
+	public static ArrayList<Tabuleiro> getMelhoresMovimentos(Tabuleiro tabuleiro, TipoAlgoritmo tipoAlgoritmo, int tamanhoTabuleiro) {
 		//Retorna todos os movimentos validos a partir da posicao atual
-		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.calculaMovimentosValidos();
+		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.calculaMovimentosValidos(tamanhoTabuleiro);
 		
-		//Itera sobre os movimentos validos, calculando o nÃºmero de
+		//Itera sobre os movimentos validos, calculando o número de
 		//movimentos sucessores de cada um
 		for(Tabuleiro tab : melhoresMovimentos) {
 			tab.getMovimentosValidos();
@@ -201,7 +201,7 @@ public class InteligenciaArtificial {
 		@Override
 		public int compare(Tabuleiro t1, Tabuleiro t2) {
 			double heuristicaT1 = (t1.getQtdMovimentosValidos() + (t1.getTempoUltimoMovimentoCavalo()));
-			double heuristicaT2 = (t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo()))*0.5
+			double heuristicaT2 = (t2.getQtdMovimentosValidos() + (t2.getTempoUltimoMovimentoCavalo()))*0.5;
 			if(heuristicaT1 > heuristicaT2) {
 				//Se T1 tem mais valor que T2, deve vir primeiro na lista
 				return -1;

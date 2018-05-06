@@ -3,7 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro  {
-	private byte[][] tabuleiro = new byte[8][8];
+	private int[][] tabuleiro;
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
@@ -20,7 +20,8 @@ public class Tabuleiro  {
 	}
 
 	//Cria um tabuleiro vazio sem cavalo
-	public Tabuleiro() {
+	public Tabuleiro(int tamanhoTabuleiro) {
+		tabuleiro = new int[tamanhoTabuleiro][tamanhoTabuleiro];
 		nLinhas = tabuleiro.length;
 		nColunas = tabuleiro[0].length;
 
@@ -35,8 +36,8 @@ public class Tabuleiro  {
 	
 	//Cria um tabuleiro vazio e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
 	//Como o cavalo fez um movimento, incrementa tempoUltimoMovimentoCavalo
-	public Tabuleiro(int linhaCavalo, int colunaCavalo) {
-		this();
+	public Tabuleiro(int tamanhoTabuleiro, int linhaCavalo, int colunaCavalo) {
+		this(tamanhoTabuleiro);
 		this.linhaCavalo = linhaCavalo;
 		this.colunaCavalo = colunaCavalo;
 		this.tempoUltimoMovimentoCavalo = (byte)(this.tempoUltimoMovimentoCavalo+1);
@@ -45,18 +46,20 @@ public class Tabuleiro  {
 	
 	//Copia um tabuleiro e coloca o cavalo na posicao (linhaCavalo, colunaCavalo)
 	//Como o cavalo fez um movimento, incrementa tempoUltimoMovimentoCavalo
-	public Tabuleiro(Tabuleiro tabuleiro, int linhaCavalo, int colunaCavalo) {
+	public Tabuleiro(Tabuleiro tabuleiroAnterior, int tamanhoTabuleiro, int linhaCavalo, int colunaCavalo) {
+		tabuleiro = new int[tamanhoTabuleiro][tamanhoTabuleiro];
+		
 		nLinhas = this.tabuleiro.length;
 		nColunas = this.tabuleiro[0].length;
 		
 		for(int i=0; i < nLinhas; i++) {
 			for(int j=0; j < nColunas; j++) {
-				this.tabuleiro[i][j] = tabuleiro.getTabuleiro()[i][j];
+				this.tabuleiro[i][j] = tabuleiroAnterior.getTabuleiro()[i][j];
 			}
 		}		
 		
 		qtdMovimentosValidos = 0;	
-		this.tempoUltimoMovimentoCavalo = (byte)(tabuleiro.getTempoUltimoMovimentoCavalo()+1);
+		this.tempoUltimoMovimentoCavalo = (byte)(tabuleiroAnterior.getTempoUltimoMovimentoCavalo()+1);
 		this.tabuleiro[linhaCavalo][colunaCavalo] = this.tempoUltimoMovimentoCavalo;
 		this.linhaCavalo = linhaCavalo;
 		this.colunaCavalo = colunaCavalo;
@@ -70,7 +73,7 @@ public class Tabuleiro  {
 		this.movimentosValidos = movimentosValidos;
 	}
 	
-	public byte[][] getTabuleiro() {
+	public int[][] getTabuleiro() {
 		return tabuleiro;
 	}
 	
@@ -93,18 +96,18 @@ public class Tabuleiro  {
 		return outputString.toString();
 	}
 	
-	public ArrayList<Tabuleiro> calculaMovimentosValidos(){
+	public ArrayList<Tabuleiro> calculaMovimentosValidos(int tamanhoTabuleiro){
 		ArrayList<Tabuleiro> movimentosValidos = new ArrayList<Tabuleiro>();
 		int projetoMovimentoLinha, projetoMovimentoColuna;
 		Tabuleiro novoTab;
-		//Aqui fica o calculo de todos os movimentos vaÂ¡lidos do cavalo
+		//Aqui fica o calculo de todos os movimentos va¡lidos do cavalo
 		
 		//movimentos para cima
 		//anda pra cima - direita
 		projetoMovimentoLinha = linhaCavalo-2;
 		projetoMovimentoColuna = colunaCavalo+1;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -112,7 +115,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo-2;
 		projetoMovimentoColuna = colunaCavalo-1;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -120,7 +123,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo-1;
 		projetoMovimentoColuna = colunaCavalo+2;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -128,7 +131,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo-1;
 		projetoMovimentoColuna = colunaCavalo-2;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}		
 		
@@ -137,7 +140,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo+2;
 		projetoMovimentoColuna = colunaCavalo+1;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -145,7 +148,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo+2;
 		projetoMovimentoColuna = colunaCavalo-1;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -153,7 +156,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo+1;
 		projetoMovimentoColuna = colunaCavalo+2;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}
 		
@@ -161,7 +164,7 @@ public class Tabuleiro  {
 		projetoMovimentoLinha = linhaCavalo+1;
 		projetoMovimentoColuna = colunaCavalo-2;
 		if (movimentoEhValido(projetoMovimentoLinha,projetoMovimentoColuna)) {
-			novoTab = new Tabuleiro(this, projetoMovimentoLinha, projetoMovimentoColuna);
+			novoTab = new Tabuleiro(this, tamanhoTabuleiro, projetoMovimentoLinha, projetoMovimentoColuna);
 			movimentosValidos.add(novoTab);	
 		}		
 		
@@ -177,7 +180,7 @@ public class Tabuleiro  {
 		return false;
 	}
 	
-	//caso true, backtracking testar o prÃ³ximo da lista de movimentos
+	//caso true, backtracking testar o próximo da lista de movimentos
 	public boolean achouBecoSemSaida() {
 		if(this.qtdMovimentosValidos == 0){
 			return true;
