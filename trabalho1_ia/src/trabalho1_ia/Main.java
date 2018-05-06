@@ -6,9 +6,9 @@ public class Main {
 		ResultadosTeste resultadosAEstrela = InteligenciaArtificial.aEstrela();
 		System.out.println(resultadosAEstrela.toString());*/
 		
-		/*System.out.println("Executando SMA*");
+		System.out.println("Executando SMA*");
 		ResultadosTeste resultadosSmaEstrela = InteligenciaArtificial.smaEstrela(500);
-		System.out.println(resultadosSmaEstrela.toString());*/
+		System.out.println(resultadosSmaEstrela.toString());
 		
 		System.out.println("Executando best first search...");
 		ResultadosTeste resultadosBestFirst = InteligenciaArtificial.bestFirstSearch();
