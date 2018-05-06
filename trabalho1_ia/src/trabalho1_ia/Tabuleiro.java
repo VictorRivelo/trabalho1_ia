@@ -3,7 +3,7 @@ package trabalho1_ia;
 import java.util.ArrayList;
 
 public class Tabuleiro  {
-	private byte[][] tabuleiro = new byte[11][11];
+	private byte[][] tabuleiro = new byte[8][8];
 	private int linhaCavalo, colunaCavalo;
 	private int nLinhas , nColunas;
 	private int qtdMovimentosValidos;
