@@ -76,10 +76,6 @@ public class InteligenciaArtificial {
 		
 		long tempoInicial = System.nanoTime();		
 		
-		//Aqui fica a logica do SMA*
-		// link de um pseudocodigo parece muito bom, da pra usar de base tambem
-		// https://en.wikipedia.org/wiki/SMA*
-		
 		ArrayList<Tabuleiro> memoria = new ArrayList<Tabuleiro>();
 		memoria.addAll(getMelhoresMovimentos(tabuleiroAtual, TipoAlgoritmo.SMA_ESTRELA, tamanhoTabuleiro));
 		Collections.sort(memoria, aEstrelaComparator);//o(n log n)
@@ -176,7 +172,7 @@ public class InteligenciaArtificial {
 		//Retorna todos os movimentos validos a partir da posicao atual
 		ArrayList<Tabuleiro> melhoresMovimentos = tabuleiro.calculaMovimentosValidos(tamanhoTabuleiro);
 		
-		//Itera sobre os movimentos validos, calculando o número de
+		//Itera sobre os movimentos validos, calculando o nÃºmero de
 		//movimentos sucessores de cada um
 		for(Tabuleiro tab : melhoresMovimentos) {
 			tab.getMovimentosValidos();
