@@ -110,7 +110,7 @@ public class InteligenciaArtificial {
 	
 	public static ResultadosTeste bestFirstSearch(int tamanhoTabuleiro, int posicaoX, int posicaoY) {
 		
-		Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro,3,1);
+		Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro,posicaoX,posicaoY);
 		tabuleiro.setMovimentosValidos(tabuleiro.calculaMovimentosValidos(tamanhoTabuleiro));
 		 
 		ArrayList<Tabuleiro> subcaminhosNaoVisitados = new ArrayList<Tabuleiro>();
